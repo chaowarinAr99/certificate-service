@@ -1,0 +1,33 @@
+meta {
+  name: TC08 Create Certificate Invalid Upstream Missing Certificate Id
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/certificates
+  body: json
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "refId": "ENR001",
+    "learnerId": "EMP001",
+    "courseRef": "PHY001"
+  }
+}
+
+tests {
+  test("should return 502", function() {
+    expect(res.status).to.equal(502);
+  });
+
+  test("should return certificate_id validation error", function() {
+    expect(res.body.statusCode).to.equal(502);
+    expect(res.body.message).to.equal('Upstream response missing certificate_id');
+  });
+}

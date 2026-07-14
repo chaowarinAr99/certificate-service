@@ -1,0 +1,33 @@
+meta {
+  name: TC18 Create Certificate Bad Request Whitespace CourseRef
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/certificates
+  body: json
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "refId": "ENR001",
+    "learnerId": "EMP001",
+    "courseRef": "   "
+  }
+}
+
+tests {
+  test("should return 400", function() {
+    expect(res.status).to.equal(400);
+  });
+
+  test("should return courseRef whitespace validation message", function() {
+    expect(res.body.statusCode).to.equal(400);
+    expect(res.body.message).to.equal('courseId is required');
+  });
+}

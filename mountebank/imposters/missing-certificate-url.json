@@ -1,0 +1,32 @@
+{
+  "port": 5500,
+  "protocol": "http",
+  "recordRequests": true,
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/provider/certificates"
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "certificate_id": "CERT001",
+              "status": "issued",
+              "issued_at": "2026-05-15T10:00:00Z"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

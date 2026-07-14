@@ -1,0 +1,33 @@
+meta {
+  name: TC16 Create Certificate Bad Request Whitespace RefId
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/certificates
+  body: json
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "refId": "   ",
+    "learnerId": "EMP001",
+    "courseRef": "PHY001"
+  }
+}
+
+tests {
+  test("should return 400", function() {
+    expect(res.status).to.equal(400);
+  });
+
+  test("should return refId whitespace validation message", function() {
+    expect(res.body.statusCode).to.equal(400);
+    expect(res.body.message).to.equal('enrollmentId is required');
+  });
+}

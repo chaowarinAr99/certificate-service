@@ -1,0 +1,49 @@
+name: Cross Repo Reusable
+
+on:
+  workflow_call:
+    inputs:
+      command:
+        description: Command to run in certificate-service
+        required: true
+        type: string
+
+jobs:
+  run-cross-repo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout certificate-service
+        uses: actions/checkout@v4
+        with:
+          path: certificate-service
+
+      - name: Checkout enrollment-service
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/enrollment-service
+          path: enrollment-service
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            certificate-service/package-lock.json
+            enrollment-service/enrollment-service/package-lock.json
+
+      - name: Install certificate-service dependencies
+        run: npm ci
+        working-directory: certificate-service
+
+      - name: Install enrollment-service dependencies
+        run: npm ci
+        working-directory: enrollment-service/enrollment-service
+
+      - name: Run cross-repo command
+        run: ${{ inputs.command }}
+        working-directory: certificate-service
+        env:
+          ENROLLMENT_SERVICE_DIR: ${{ github.workspace }}/enrollment-service/enrollment-service

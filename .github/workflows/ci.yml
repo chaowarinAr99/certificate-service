@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run unit and integration tests
+        run: npm test
+
+      - name: Run API contract tests
+        run: npm run test:api:ci
+
+  cross-repo-smoke:
+    needs: test
+    uses: ./.github/workflows/cross-repo.yml
+    with:
+      command: npm run test:cross-repo
+    secrets: inherit
+
+  cross-repo-happy:
+    needs: test
+    uses: ./.github/workflows/cross-repo.yml
+    with:
+      command: npm run test:cross-repo:happy
+    secrets: inherit
+
+  cross-repo-alternative:
+    needs: test
+    uses: ./.github/workflows/cross-repo.yml
+    with:
+      command: npm run test:cross-repo:alternative
+    secrets: inherit

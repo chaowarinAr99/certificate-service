@@ -1,0 +1,33 @@
+meta {
+  name: TC12 Create Certificate Upstream Timeout
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/certificates
+  body: json
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "refId": "ENR001",
+    "learnerId": "EMP001",
+    "courseRef": "PHY001"
+  }
+}
+
+tests {
+  test("should map upstream timeout to 504", function() {
+    expect(res.status).to.equal(504);
+  });
+
+  test("should return upstream timeout message", function() {
+    expect(res.body.statusCode).to.equal(504);
+    expect(res.body.message).to.equal('Certificate API request timed out');
+  });
+}

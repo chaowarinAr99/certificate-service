@@ -1,0 +1,48 @@
+services:
+  mountebank:
+    image: bbyars/mountebank:2.9.1
+    container_name: certificate-api-test-mountebank
+    command: ['--port', '2525', '--loglevel', 'warn']
+    ports:
+      - '2525:2525'
+      - '5500:5500'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:2525/imposters').then((response) => { if (!response.ok) process.exit(1); }).catch(() => process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+  certificate-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: certificate-api-test-app
+    environment:
+      PORT: '4000'
+      EXTERNAL_CERTIFICATE_API_URL: http://mountebank:5500/provider/certificates
+      EXTERNAL_CERTIFICATE_API_TIMEOUT_MS: '1000'
+      EXTERNAL_CERTIFICATE_API_KEY: ''
+    ports:
+      - '4000:4000'
+    depends_on:
+      mountebank:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:4000/health').then((response) => { if (!response.ok) process.exit(1); }).catch(() => process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s

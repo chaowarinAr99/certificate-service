@@ -1,0 +1,35 @@
+meta {
+  name: TC02 Create Certificate Success course CHE001
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/certificates
+  body: json
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "refId": "ENR002",
+    "learnerId": "EMP002",
+    "courseRef": "CHE001"
+  }
+}
+
+tests {
+  test("should return 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("should return mapped certificate payload", function() {
+    expect(res.body.certificate_id).to.equal('CERT002');
+    expect(res.body.certificate_url).to.equal('https://certificate.example.com/CERT002.pdf');
+    expect(res.body.status).to.equal('issued');
+    expect(res.body.issued_at).to.equal('2026-05-15T10:00:00Z');
+  });
+}
