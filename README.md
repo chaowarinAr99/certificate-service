@@ -116,16 +116,16 @@ npm run test:cross-repo:alternative
 ข้อสำคัญ:
 
 - ต้องมี repo `enrollment-service` อยู่ในเครื่องด้วย
-- ถ้า path ของ repo ไม่ตรงกับค่า default ให้ตั้ง:
+- ถ้า path ของ repo ไม่ตรงกับค่า default ให้ตั้ง path ของ repo นั้นผ่าน env:
 
 ```bash
-ENROLLMENT_SERVICE_DIR=/path/to/enrollment-service/enrollment-service
+ENROLLMENT_SERVICE_DIR=<path-to-enrollment-service>
 ```
 
 ตัวอย่าง:
 
 ```bash
-ENROLLMENT_SERVICE_DIR=/path/to/enrollment-service/enrollment-service npm run test:cross-repo
+ENROLLMENT_SERVICE_DIR=<path-to-enrollment-service> npm run test:cross-repo
 ```
 
 ### 3. เส้นทาง fallback แบบ local

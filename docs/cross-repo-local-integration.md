@@ -27,8 +27,7 @@ mb admin                http://localhost:2525
 
 - both repos already ran `npm install`
 - Docker is available for MongoDB used by `enrollment-service`
-- `enrollment-service` app root exists at:
-  - `/Users/chaowarin/Downloads/enrollment-service/enrollment-service`
+- `enrollment-service` app root must be available locally
 
 ## Required Config
 
@@ -66,7 +65,7 @@ EXTERNAL_CERTIFICATE_API_URL=http://localhost:5500/provider/certificates
 Terminal 1:
 
 ```bash
-cd /Users/chaowarin/Downloads/certificate-service
+cd <path-to-certificate-service>
 npm run mb:start
 npm run mb:load:success
 ```
@@ -74,14 +73,14 @@ npm run mb:load:success
 Terminal 2:
 
 ```bash
-cd /Users/chaowarin/Downloads/certificate-service
+cd <path-to-certificate-service>
 npm run start:api-test
 ```
 
 Terminal 3:
 
 ```bash
-cd /Users/chaowarin/Downloads/enrollment-service/enrollment-service
+cd <path-to-enrollment-service>
 npm run mongo:start
 CERTIFICATE_API_URL=http://localhost:4000/certificates npm run start
 ```
@@ -267,13 +266,13 @@ Important notes:
 The cross-repo runner uses this environment variable when you need to override the default local path:
 
 ```bash
-ENROLLMENT_SERVICE_DIR=/path/to/enrollment-service/enrollment-service
+ENROLLMENT_SERVICE_DIR=<path-to-enrollment-service>
 ```
 
 Example:
 
 ```bash
-ENROLLMENT_SERVICE_DIR=/path/to/enrollment-service/enrollment-service npm run test:cross-repo
+ENROLLMENT_SERVICE_DIR=<path-to-enrollment-service> npm run test:cross-repo
 ```
 
 ## Troubleshooting

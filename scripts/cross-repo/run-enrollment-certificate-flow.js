@@ -4,9 +4,13 @@ const net = require('node:net');
 const fs = require('node:fs/promises');
 
 const CERTIFICATE_REPO_ROOT = path.resolve(__dirname, '../..');
+const DEFAULT_ENROLLMENT_REPO_ROOT = path.resolve(
+  CERTIFICATE_REPO_ROOT,
+  '../enrollment-service/enrollment-service',
+);
 const ENROLLMENT_REPO_ROOT =
   process.env.ENROLLMENT_SERVICE_DIR ||
-  '/Users/chaowarin/Downloads/enrollment-service/enrollment-service';
+  DEFAULT_ENROLLMENT_REPO_ROOT;
 const runtimeMode = process.env.CROSS_REPO_RUNTIME_MODE || 'managed';
 const crossRepoComposeFile =
   process.env.CROSS_REPO_COMPOSE_FILE ||
@@ -251,7 +255,10 @@ async function assertPortFree(port) {
 
 async function assertPathExists() {
   await fs.access(ENROLLMENT_REPO_ROOT).catch(() => {
-    throw new Error(`Enrollment service repo not found at ${ENROLLMENT_REPO_ROOT}`);
+    throw new Error(
+      `Enrollment service repo not found at ${ENROLLMENT_REPO_ROOT}. ` +
+        'Set ENROLLMENT_SERVICE_DIR=/path/to/enrollment-service/enrollment-service',
+    );
   });
 }
 

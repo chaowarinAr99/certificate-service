@@ -65,7 +65,7 @@ services:
 
   enrollment-service:
     build:
-      context: ${ENROLLMENT_SERVICE_DIR:-/Users/chaowarin/Downloads/enrollment-service/enrollment-service}
+      context: ${ENROLLMENT_SERVICE_DIR}
       dockerfile: Dockerfile
     container_name: certificate-cross-repo-enrollment-app
     environment:
