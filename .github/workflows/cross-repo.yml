@@ -39,7 +39,7 @@ jobs:
         working-directory: certificate-service
 
       - name: Install enrollment-service dependencies
-        run: npm ci
+        run: npm install
         working-directory: enrollment-service/enrollment-service
 
       - name: Run cross-repo command
