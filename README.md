@@ -2,6 +2,187 @@
 
 Internal NestJS service that accepts certificate requests from `enrollment-service`, validates them, calls `external-certificate-api`, validates the upstream response, maps upstream errors, and returns the contract expected by the caller.
 
+## Quick Start สำหรับคนที่เพิ่งเข้ามาใหม่
+
+### สิ่งที่ต้องมี
+
+ก่อนเริ่มใช้งาน repo นี้ ควรมี:
+
+- Node.js `22`
+- npm
+- Docker
+
+### 1. ติดตั้ง dependencies
+
+```bash
+npm install
+```
+
+### 2. เลือกสิ่งที่ต้องการรัน
+
+#### รัน service อย่างเดียว
+
+ใช้กรณีที่ต้องการเปิด `certificate-service` เพื่อทดลอง endpoint หรือพัฒนา feature
+
+```bash
+npm run start:dev
+```
+
+service จะเปิดที่:
+
+```text
+http://localhost:4000
+```
+
+เช็ก health:
+
+```bash
+curl -i http://localhost:4000/health
+```
+
+#### รัน unit tests
+
+ใช้เมื่อต้องการเช็ก logic แบบเร็วที่สุดในระดับ isolated test
+
+```bash
+npm run test:unit
+```
+
+#### รัน component tests
+
+ใช้เมื่อต้องการเช็กการทำงานจริงของ app wiring ภายใน repo นี้ เช่น:
+
+- HTTP layer
+- controller
+- service
+- client
+- validation
+- error mapping
+
+```bash
+npm run test:component
+```
+
+#### รัน API tests ด้วย Docker
+
+นี่คือเส้นทาง default สำหรับ Bruno/API tests
+
+```bash
+npm run test:bruno
+```
+
+รันเฉพาะ success scenarios:
+
+```bash
+npm run test:bruno:success
+```
+
+รันเฉพาะ alternative scenarios:
+
+```bash
+npm run test:bruno:alternative
+```
+
+สิ่งที่ path นี้ใช้:
+
+- container ของ `certificate-service`
+- container ของ `Mountebank` สำหรับปลอม upstream
+
+#### รัน cross-repo integration ด้วย Docker
+
+นี่คือเส้นทาง default สำหรับทดสอบการทำงานร่วมกันระหว่าง:
+
+- `enrollment-service`
+- `certificate-service`
+
+รันแบบ quick smoke:
+
+```bash
+npm run test:cross-repo
+```
+
+รัน happy scenarios:
+
+```bash
+npm run test:cross-repo:happy
+```
+
+รัน alternative scenarios:
+
+```bash
+npm run test:cross-repo:alternative
+```
+
+ข้อสำคัญ:
+
+- ต้องมี repo `enrollment-service` อยู่ในเครื่องด้วย
+- ถ้า path ของ repo ไม่ตรงกับค่า default ให้ตั้ง:
+
+```bash
+ENROLLMENT_SERVICE_DIR=/path/to/enrollment-service/enrollment-service
+```
+
+ตัวอย่าง:
+
+```bash
+ENROLLMENT_SERVICE_DIR=/path/to/enrollment-service/enrollment-service npm run test:cross-repo
+```
+
+### 3. เส้นทาง fallback แบบ local
+
+ถ้าต้องการ debug โดยไม่ใช้ Docker ยังมี fallback commands ให้ใช้
+
+API fallback:
+
+```bash
+npm run test:api:local
+```
+
+Cross-repo fallback:
+
+```bash
+npm run test:cross-repo:local
+```
+
+คำสั่งเหล่านี้มีไว้สำหรับ debug เป็นหลัก โดยปกติให้ใช้ Docker path ก่อน
+
+### 4. พอร์ตที่ใช้บ่อย
+
+พอร์ตหลักที่ใช้ใน repo นี้มีดังนี้:
+
+```text
+4000 = certificate-service
+2525 = Mountebank admin
+5500 = fake upstream provider
+```
+
+ถ้ารัน cross-repo จะใช้เพิ่ม:
+
+```text
+3000 = enrollment-service
+27018 = Mongo host mapping
+```
+
+ข้อควรระวัง:
+
+- อย่ารัน Dockerized API tests และ Dockerized cross-repo tests พร้อมกัน
+- เพราะมีการใช้พอร์ตบางตัวร่วมกัน
+
+### 5. ถ้ารันแล้วมีปัญหา
+
+ให้เริ่มเช็กจากจุดเหล่านี้ก่อน:
+
+- `http://localhost:4000/health`
+- Docker เปิดอยู่หรือไม่
+- มี port conflict หรือไม่
+- ถ้าเป็น cross-repo ให้เช็กว่า `ENROLLMENT_SERVICE_DIR` ถูกต้องหรือไม่
+
+ถ้าต้องการคู่มือเชิงลึกเพิ่มเติม ให้ดูที่:
+
+```text
+docs/cross-repo-local-integration.md
+```
+
 ## Quality Summary
 
 This repo now has four test layers in place:
