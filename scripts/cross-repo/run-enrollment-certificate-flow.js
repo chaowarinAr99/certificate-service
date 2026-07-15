@@ -22,21 +22,21 @@ const PORTS = {
 const SCENARIOS = {
   'happy-phy001': {
     mode: 'cross-repo',
-    employeeId: 'EMP002',
+    employeeId: 'EMP001',
     courseId: 'PHY001',
     approvedBy: 'HR001',
     imposter: 'mountebank/imposters/success.json',
   },
   'happy-che001': {
     mode: 'cross-repo',
-    employeeId: 'EMP003',
+    employeeId: 'EMP002',
     courseId: 'CHE001',
     approvedBy: 'HR001',
     imposter: 'mountebank/imposters/success.json',
   },
   'happy-com001': {
     mode: 'cross-repo',
-    employeeId: 'EMP004',
+    employeeId: 'EMP003',
     courseId: 'COM001',
     approvedBy: 'HR001',
     imposter: 'mountebank/imposters/success.json',

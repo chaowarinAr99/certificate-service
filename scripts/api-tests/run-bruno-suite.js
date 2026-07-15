@@ -13,11 +13,9 @@ const SCENARIO_GROUPS = {
       folder: 'certificates/success/TC01_Create_Certificate_Success_course_PHY001.bru',
     },
     {
-      imposter: 'mountebank/imposters/success.json',
       folder: 'certificates/success/TC02_Create_Certificate_Success_course_CHE001.bru',
     },
     {
-      imposter: 'mountebank/imposters/success.json',
       folder: 'certificates/success/TC03_Create_Certificate_Success_course_COM001.bru',
     },
     { folder: 'certificates/alternative/TC04_Create_Certificate_Bad_Request_Missing_RefId.bru' },
@@ -61,11 +59,9 @@ const SCENARIO_GROUPS = {
       folder: 'certificates/success/TC01_Create_Certificate_Success_course_PHY001.bru',
     },
     {
-      imposter: 'mountebank/imposters/success.json',
       folder: 'certificates/success/TC02_Create_Certificate_Success_course_CHE001.bru',
     },
     {
-      imposter: 'mountebank/imposters/success.json',
       folder: 'certificates/success/TC03_Create_Certificate_Success_course_COM001.bru',
     },
   ],

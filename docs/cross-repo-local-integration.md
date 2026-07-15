@@ -12,6 +12,8 @@ The flow uses:
 
 Docker is the default runtime path for cross-repo integration in this repo.
 
+Do not run the Dockerized cross-repo stack at the same time as the Dockerized Bruno/API stack because both use the same host ports (`2525`, `5500`, and `4000`).
+
 ## Topology
 
 ```text

@@ -45,6 +45,8 @@ npm run test:bruno:success
 npm run test:bruno:alternative
 ```
 
+Do not run these commands at the same time as `test:cross-repo*` because both Docker stacks bind the same host ports.
+
 Local fallback examples:
 
 ```bash

@@ -157,6 +157,8 @@ This repo includes API contract tests using `Bruno` and upstream stubs using `Mo
 
 Docker is the default runtime path for Bruno/API commands.
 
+Do not run the Dockerized Bruno/API stack and the Dockerized cross-repo stack at the same time. They both bind the same host ports (`2525`, `5500`, and `4000`).
+
 ### Files
 
 - `bruno/certificate-service` Bruno collection
@@ -249,6 +251,18 @@ Success scenario:
 npm run mb:load:success
 npm run bru:run:success
 ```
+
+Additional success datasets:
+
+```bash
+npm run test:bruno:success
+```
+
+This Docker default command runs all three success datasets:
+
+- `TC01_Create_Certificate_Success_course_PHY001`
+- `TC02_Create_Certificate_Success_course_CHE001`
+- `TC03_Create_Certificate_Success_course_COM001`
 
 Validation scenarios mapped to `400`:
 
@@ -361,6 +375,8 @@ Docker default happy-path smoke command:
 ```bash
 npm run test:cross-repo
 ```
+
+Do not run `test:cross-repo*` at the same time as `test:bruno*` because both Docker stacks bind the same host ports.
 
 Grouped commands:
 
